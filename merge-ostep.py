@@ -2,7 +2,7 @@ import os
 import requests
 from PyPDF2 import PdfMerger
 
-chapters_url = {
+chapter_urls = {
     "Intro": {
         "Preface": "preface.pdf",
         "Table of Contents": "toc.pdf",
@@ -18,7 +18,7 @@ chapters_url = {
         "CPU Scheduling": "cpu-sched.pdf",
         "Multi-level Feedback": "cpu-sched-mlfq.pdf",
         "Lottery Scheduling": "cpu-sched-lottery.pdf",
-        "Multi-CPU Scheduling": "cpu-sched-multiple.pdf",
+        "Multi-CPU Scheduling": "cpu-sched-multi.pdf",
         "Summary: CPU": "cpu-dialogue.pdf",
         "Dialogue: Virtual Memory": "dialogue-vm.pdf",
         "Address Spaces": "vm-intro.pdf",
@@ -50,7 +50,7 @@ chapters_url = {
 
     "Persistence": {
         "Dialogue: Persistence": "dialogue-persistence.pdf",
-        "I/O Devices": "file-devices.pdf",
+        "IO Devices": "file-devices.pdf",
         "Hard Disk Drives": "file-disks.pdf",
         "Redundant Disk Arrays (RAID)": "file-raid.pdf",
         "Files and Directories": "file-intro.pdf",
@@ -78,7 +78,7 @@ chapters_url = {
     },
 
     "Appendices": {
-        "Dialogue: Virtual Machine Monitor",
+        "Dialogue: Virtual Machine Monitor": "dialogue-vmm.pdf",
         "Virtual Machines": "vmm-intro.pdf",
         "Dialogue: Monitors": "dialogue-monitors.pdf",
         "Monitors": "threads-monitors.pdf",
@@ -101,7 +101,7 @@ def download_chapters():
             print(f"Creating new directory in {output_dir}: {section}")
             os.makedirs(section_name)
         for chapter_name, chapter_url in chapter_urls[section].items():
-            filename = os.path.join(section_name, chapter_name)
+            filename = os.path.join(section_name, chapter_name + ".pdf")
             if not os.path.exists(filename):
                 url = web_url_root + chapter_url
                 print(f"Downloading {url}...")
@@ -116,7 +116,7 @@ def merge_pdfs():
     for section in chapter_urls:
         print(f"Adding section {section} to the merged PDF...")
         for chapter_name in chapter_urls[section]:
-            chapter_file = os.path.join(output_dir, section, chapter_name)
+            chapter_file = os.path.join(output_dir, section, chapter_name + ".pdf")
             print(f"Adding {chapter_file} to the merged PDF...")
             merger.append(chapter_file)
     merger.write(output_pdf)

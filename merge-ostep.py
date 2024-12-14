@@ -113,10 +113,12 @@ def download_chapters():
 
 def merge_pdfs():
     merger = PdfMerger()
-    for url in chapter_urls:
-        chapter_file = os.path.join(output_dir, os.path.basename(url))
-        print(f"Adding {chapter_file} to the merged PDF...")
-        merger.append(chapter_file)
+    for section in chapter_urls:
+        print(f"Adding section {section} to the merged PDF...")
+        for chapter_name in chapter_urls[section]:
+            chapter_file = os.path.join(output_dir, section, chapter_name)
+            print(f"Adding {chapter_file} to the merged PDF...")
+            merger.append(chapter_file)
     merger.write(output_pdf)
     merger.close()
     print(f"All chapters merged into {output_pdf}.")
